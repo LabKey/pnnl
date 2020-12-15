@@ -1,0 +1,70 @@
+<Schema name="FCIC" description="FCIC Data Finder">
+
+   <Cube name="StudyCube" visible="true" defaultMeasure="RowCount" cache="true" enabled="true">
+
+       <Annotations>
+           <!--<Annotation name="ContainerFilter">AllFolders</Annotation>-->
+           <Annotation name="AllowMDX">FALSE</Annotation>
+       </Annotations>
+
+        <Table schema="lists" name="StudyAccess"/>
+
+        <Dimension name="Study" visible="true" highCardinality="false" foreignKey="StudyId">
+            <Hierarchy hasAll="true" primaryKeyTable="studyAccess" primaryKey="StudyId">
+                <Level name="Container" visible="true" column="studyContainer" type="String" uniqueMembers="true" levelType="Regular"/>
+                <Level name="Study" visible="true" column="studyId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Study Name" hasAll="true" primaryKeyTable="studyAccess" primaryKey="StudyId">
+                <!--<Level name="Container" visible="true" column="studyContainer" type="String" uniqueMembers="true" levelType="Regular"/>-->
+                <Level name="Study" visible="true" column="studyId" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Fiscal Years Active" hasAll="true" primaryKey="StudyId">
+                <Table name="studyFiscalYearsActive" schema="lists"/>
+                <Level name="FiscalYearsActive" visible="true" table="studyFiscalYearsActive" column="fiscalYearsActive" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Study Type" hasAll="true" primaryKey="StudyId">
+                <Table name="studyProperties" schema="lists"/>
+                <Level name="StudyType" visible="true"  type="String" column="studyType" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Feedstock Type" hasAll="true" primaryKey="StudyId">
+                <Table name="studyFeedstockType" schema="lists"/>
+                <Level name="FeedstockType" visible="true"  table="studyFeedstockType" type="String" column="feedstockType" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Product Type" hasAll="true" primaryKey="StudyId">
+                <Table name="studyProductType" schema="lists"/>
+                <Level name="ProductType" visible="true"  table="studyProductType" type="String" column="productType" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Technology Pathway" hasAll="true" primaryKey="StudyId">
+                <Table name="studyTechnologyPathway" schema="lists"/>
+                <Level name="TechnologyPathway" visible="true" table="studyTechnologyPathway" type="String" column="technologyPathway" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Process Area" hasAll="true" primaryKey="StudyId">
+                <Table name="studyProcessArea" schema="lists"/>
+                <Level name="ProcessArea" visible="true" table="studyProcessArea" type="String" column="processArea" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Unit Operation" hasAll="true" primaryKey="StudyId">
+                <Table name="studyUnitOperation" schema="lists"/>
+                <Level name="UnitOperation" visible="true" table="studyUnitOperation" type="String" column="unitOperation" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Process Stream Property" hasAll="true" primaryKey="StudyId">
+                <Table name="studyProcessStreamProperty" schema="lists"/>
+                <Level name="ProcessStreamProperty" visible="true" table="studyProcessStreamProperty" type="String" column="processStreamProperty" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Process Parameter" hasAll="true" primaryKey="StudyId">
+                <Table name="studyProcessParameter" schema="lists"/>
+                <Level name="ProcessParameter" visible="true" table="studyProcessParameter" type="String" column="processParameter" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Analytical Method" hasAll="true" primaryKey="StudyId">
+                <Table name="studyAnalyticalMethod" schema="lists"/>
+                <Level name="AnalyticalMethod" visible="true" table="studyAnalyticalMethod" type="String" column="analyticalMethod" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Visibility" hasAll="true" primaryKey="StudyId">
+                <Level name="Visibility" visible="true"  type="String" column="Visibility" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+        </Dimension>
+
+        <Measure name="RowCount" column="StudyId" aggregator="count" visible="true"/>
+
+    </Cube>
+
+</Schema>
